@@ -14,7 +14,7 @@ import (
 // needs 26688 perms
 
 func ManipTxt(content string) string {
-	out := make([]rune, len(content))
+	var out []rune
 	for i, c := range content {
 		if i%2 == 0 {
 			out = append(out, unicode.ToUpper(c))
