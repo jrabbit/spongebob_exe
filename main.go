@@ -2,24 +2,24 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"github.com/bwmarrin/discordgo"
 	"github.com/spf13/viper"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
-	"bytes"
+	"unicode"
 )
 
 // needs 26688 perms
 
 func ManipTxt(content string) string {
-	out := make([]byte, len(content))
-	for i := 0; i<len(content); i++{
-		if i % 2 == 0 {
-			out := append(out, bytes.ToUpper(content[i]))
-		}else{
-			out := append(out, bytes.ToLower(content[i]))
+	out := make([]rune, len(content))
+	for i, c := range content {
+		if i%2 == 0 {
+			out = append(out, unicode.ToUpper(c))
+		} else {
+			out = append(out, unicode.ToLower(c))
 		}
 	}
 	return string(out)
