@@ -27,7 +27,7 @@ func ManipTxt(content string) string {
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if seq := strings.Split(m.Content, "&sponge"); len(seq) > 1 {
-		s.ChannelMessageSend(m.ChannelID, ManipTxt(seq[1]))
+		s.ChannelMessageSend(m.ChannelID, string(m.Author.Username) + ManipTxt(seq[1]))
 		s.ChannelMessageDelete(m.ChannelID, m.ID)
 	}
 }
