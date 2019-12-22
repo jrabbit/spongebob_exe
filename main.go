@@ -25,8 +25,10 @@ func ManipTxt(content string) string {
 	return string(out)
 }
 
+const Prefix  = "&"
+
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-	if seq := strings.Split(m.Content, "&sponge"); len(seq) > 1 {
+	if seq := strings.Split(m.Content, fmt.Sprintf("%ssponge", Prefix)); len(seq) > 1 {
 		s.ChannelMessageSend(m.ChannelID, ManipTxt(seq[1]))
 		s.ChannelMessageDelete(m.ChannelID, m.ID)
 	}
@@ -40,6 +42,7 @@ func main() {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 	discord, err := discordgo.New("Bot " + viper.GetString("token"))
+	discord.UpdateListeningStatus(fmt.Sprintf("%ssponge <yr message>", Prefix))
 	discord.AddHandler(messageCreate)
 	discord.Open()
 	sc := make(chan os.Signal, 1)
