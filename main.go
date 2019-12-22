@@ -29,7 +29,7 @@ const Prefix = "&"
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if seq := strings.Split(m.Content, fmt.Sprintf("%ssponge", Prefix)); len(seq) > 1 {
-		s.ChannelMessageSend(m.ChannelID,  string(m.Author.Username) + ManipTxt(seq[1]))
+		s.ChannelMessageSend(m.ChannelID, string(m.Author.Username)+ManipTxt(seq[1]))
 		s.ChannelMessageDelete(m.ChannelID, m.ID)
 	}
 }
