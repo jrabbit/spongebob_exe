@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/spf13/viper"
+	"log"
 	"os"
 	"os/signal"
 	"strings"
@@ -12,6 +13,8 @@ import (
 )
 
 // needs 26688 perms
+
+const Version = "0.2.0"
 
 func ManipTxt(content string) string {
 	var out []rune
@@ -35,6 +38,8 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func main() {
+	log.Printf("Version %v spongebob_exe bot", Version)
+	log.Println("source at: https://github.com/jrabbit/spongebob_exe")
 	viper.SetConfigName("discord")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig() // Find and read the config file
@@ -42,9 +47,9 @@ func main() {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 	discord, err := discordgo.New("Bot " + viper.GetString("token"))
-	discord.UpdateListeningStatus(fmt.Sprintf("%ssponge <yr message>", Prefix))
 	discord.AddHandler(messageCreate)
 	discord.Open()
+	discord.UpdateListeningStatus(fmt.Sprintf("%ssponge <yr message>", Prefix))
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc

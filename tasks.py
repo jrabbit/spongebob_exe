@@ -7,8 +7,10 @@ DOCKER_TAG = "latest"
 DOCKER_IMAGE = f"docker.pkg.github.com/jrabbit/spongebob_exe/sponge:{DOCKER_TAG}"
 
 @task
-def build(c, tag=True):
+def build(c, fmt=True, tag=True):
     "build project and make docker image"
+    if fmt:
+        c.run(f"{GO_BIN} fmt")
     c.run(f"{GO_BIN} build")
     if tag:
         c.run(f"docker build -t {DOCKER_IMAGE} .")
@@ -19,7 +21,9 @@ def release(c):
     c.run(f"docker push {DOCKER_IMAGE}")
 
 @task
-def prod(c):
+def prod(c, kill=False):
+    if kill:
+        c.run(f"docker rm -f sponge_exe")
     c.run(f"docker run --restart on-failure -v $PWD/discord.toml:/discord.toml {DOCKER_IMAGE} --name sponge_exe -d")
 
 @task
