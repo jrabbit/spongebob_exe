@@ -17,3 +17,11 @@ def build(c, tag=True):
 def release(c):
     "push the docker image"
     c.run(f"docker push {DOCKER_IMAGE}")
+
+@task
+def prod(c):
+    c.run(f"docker run --restart on-failure -v $PWD/discord.toml:/discord.toml {DOCKER_IMAGE} --name sponge_exe -d")
+
+@task
+def pull(c):
+    c.run(f"docker pull {DOCKER_IMAGE}")
