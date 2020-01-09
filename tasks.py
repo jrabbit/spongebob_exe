@@ -16,6 +16,11 @@ def build(c, fmt=True, tag=True):
         c.run(f"docker build -t {DOCKER_IMAGE} .")
 
 @task
+def deps(c):
+    c.run("docker pull gcr.io/distroless/base")
+    #c.run("docker pull golang")
+
+@task
 def release(c):
     "push the docker image"
     c.run(f"docker push {DOCKER_IMAGE}")

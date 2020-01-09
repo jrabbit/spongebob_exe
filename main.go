@@ -14,7 +14,7 @@ import (
 
 // needs 26688 perms
 
-const Version = "0.2.0"
+const Version = "0.3.0"
 
 func ManipTxt(content string) string {
 	var out []rune

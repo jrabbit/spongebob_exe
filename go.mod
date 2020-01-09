@@ -3,7 +3,7 @@ module github.com/jrabbit/spongebob_exe
 go 1.13
 
 require (
-	github.com/bwmarrin/discordgo v0.20.1
+	github.com/bwmarrin/discordgo v0.20.2
 	github.com/gorilla/websocket v1.4.1 // indirect
 	github.com/pelletier/go-toml v1.6.0 // indirect
 	github.com/spf13/afero v1.2.2 // indirect
@@ -11,8 +11,9 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.6.1
-	golang.org/x/crypto v0.0.0-20191219195013-becbf705a915 // indirect
-	golang.org/x/sys v0.0.0-20191220220014-0732a990476f // indirect
+	golang.org/x/crypto v0.0.0-20200108215511-5d647ca15757 // indirect
+	golang.org/x/sys v0.0.0-20200107162124-548cf772de50 // indirect
 	golang.org/x/text v0.3.2 // indirect
+	gopkg.in/ini.v1 v1.51.1 // indirect
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
