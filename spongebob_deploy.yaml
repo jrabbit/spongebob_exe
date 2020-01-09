@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: spongebob-deployed
+  name: spongebob-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: spongebob-deployed
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: spongebob-deployed
+    spec:
+      containers:
+      - image: jrabbit/spongebob_exe
+        name: spongeing
+        volumeMounts:
+        - name: discord
+          mountPath: "/app/discord.toml"
+          readOnly: true
+        volumes:
+        - name: discord
+          secret:
+              secretName: discord_toml

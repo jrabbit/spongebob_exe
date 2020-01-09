@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+    bot:
+        image: docker.pkg.github.com/jrabbit/spongebob_exe/sponge
+        secrets:
+            - discord_toml
+secrets:
+    discord_toml:
+        file: "./discord.toml"
