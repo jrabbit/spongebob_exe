@@ -26,7 +26,9 @@ def release(c):
     c.run(f"docker push {DOCKER_IMAGE}")
 
 @task
-def prod(c, kill=False, kubectl ="sudo k3s kubectl"):
+def prod(c, kill=False, kubectl ="sudo k3s kubectl", load_secret=False):
+    if load_secret:
+        c.run(f"{kubectl} create secret generic sponge-sec-discord --from-file=discord.toml")
     if kill:
         c.run(f"{kubectl} delete pod static-spongebob")
     c.run(f"{kubectl} apply -f spongebob_pod.yaml")
