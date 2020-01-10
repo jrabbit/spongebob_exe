@@ -26,10 +26,10 @@ def release(c):
     c.run(f"docker push {DOCKER_IMAGE}")
 
 @task
-def prod(c, kill=False):
+def prod(c, kill=False, kubectl ="sudo k3s kubectl"):
     if kill:
-        c.run(f"docker rm -f sponge_exe")
-    c.run(f"docker run --restart on-failure -v $PWD/discord.toml:/discord.toml {DOCKER_IMAGE} --name sponge_exe -d")
+        c.run(f"{kubectl} delete pod static-spongebob")
+    c.run(f"{kubectl} apply -f spongebob_pod.yaml")
 
 @task
 def pull(c):
