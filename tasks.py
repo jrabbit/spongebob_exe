@@ -4,7 +4,7 @@ GO_VERSION = "1.13"
 GO_BIN = f"/usr/lib/go-{GO_VERSION}/bin/go"
 
 DOCKER_TAG = "latest"
-DOCKER_IMAGE = f"docker.pkg.github.com/jrabbit/spongebob_exe/sponge:{DOCKER_TAG}"
+DOCKER_IMAGE = f"jrabbit/spongebob_exe:{DOCKER_TAG}"
 
 @task
 def build(c, fmt=True, tag=True):
