@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	flag "github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -13,9 +13,7 @@ import (
 	"unicode"
 )
 
-// needs 26688 perms
-
-const Version = "0.4.0"
+const Version = "0.4.1"
 
 func ManipTxt(content string) string {
 	var out []rune
@@ -42,17 +40,16 @@ func ToClap(content string) string {
 }
 
 func DiscordSetup() {
+	// needs 26688 perms
 	const TARGET_PERMS uint = 26688
-	fmt.Println("What is the application's client_id (grab it from https://discordapp.com/developers/applications/ )?")
-	scanner := bufio.NewScanner(os.Stdin)
-	var cl_id string
-	for scanner.Scan() {
-		cl_id = scanner.Text()
+	if x := viper.GetString("client_id"); x != "" {
+		log.Printf("connect via https://discordapp.com/oauth2/authorize?client_id=%s&scope=bot&permissions=%d", x, TARGET_PERMS)
+	} else {
+		fmt.Println("What is the application's client_id (grab it from https://discordapp.com/developers/applications/ )?")
+		var cl_id string
+		fmt.Scanln(&cl_id)
+		log.Printf("connect via https://discordapp.com/oauth2/authorize?client_id=%s&scope=bot&permissions=%d", cl_id, TARGET_PERMS)
 	}
-	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input:", err)
-	}
-	log.Printf("connect via https://discordapp.com/oauth2/authorize?client_id=%s&scope=bot&permissions=%s", cl_id, TARGET_PERMS)
 }
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -78,7 +75,11 @@ func main() {
 	if err != nil {             // Handle errors reading the config file
 		panic(fmt.Errorf("Fatal error in config file: %s \nDo you have a config?", err))
 	}
+	flag.Bool("setup", false, "give discord join url")
+	flag.Parse()
+	viper.BindPFlags(flag.CommandLine)
 	if viper.GetBool("setup") {
+		DiscordSetup()
 		return
 	}
 	log.Printf("using prefix %s", viper.GetString("prefix"))

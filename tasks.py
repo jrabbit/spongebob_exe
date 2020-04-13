@@ -26,7 +26,7 @@ def release(c):
     c.run(f"docker push {DOCKER_IMAGE}")
 
 @task
-def prod(c, kill=False, kubectl ="sudo k3s kubectl", load_secret=False):
+def prod(c, kill=False, kubectl="sudo k3s kubectl", load_secret=False):
     if load_secret:
         c.run(f"{kubectl} create secret generic sponge-sec-discord --from-file=discord.toml")
     if kill:
